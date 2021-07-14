@@ -9,11 +9,15 @@ class Lrucache:
         if key not in self.cache:
             return -1
         else:
-            self.cache.move_to_end(key)
+            temp=self.cache[key]
+            del self.cache[key]
+            
+            self.cache[key]=temp
             return self.cache[key]
     def put(self,key,val):
         self.cache[key] = val
-        self.cache.move_to_end(key)
+        
+        
         if len(self.cache) > self.capacity:
             self.cache.popitem(last = False)
 
@@ -40,8 +44,9 @@ def main():
     obj.get(4)
     assert(obj.cache)==OrderedDict([(3, 3), (4, 4)])
     obj.get_cache()
-    obj.put(4,4)
-    #assert(obj.cache)==OrderedDict([(3, 3), (4, 4), (4,3)])
+    obj.put(4,5)
+    
+    assert(obj.cache)==OrderedDict([(3, 3), (4, 4), (4,5)])
     obj.get_cache()
 if __name__=="__main__":
     main()
