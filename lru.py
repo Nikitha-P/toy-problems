@@ -15,12 +15,14 @@ class Lrucache:
             self.cache[key]=temp
             return self.cache[key]
     def put(self,key,val):
-        self.cache[key] = val
-        
-        
-        if len(self.cache) > self.capacity:
-            self.cache.popitem(last = False)
-
+        if key in self.cache:
+            temp = self.cache[key]
+            del self.cache[key]
+            self.cache[key] = temp
+        else:
+            if len(self.cache) == self.capacity:
+                self.cache.popitem(last = False)
+        self.cache[key] = val;
     def get_cache(self):
         print(self.cache)
 
